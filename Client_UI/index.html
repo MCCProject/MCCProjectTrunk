@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+  <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+  <title>Look Around o-O</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no"/>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" />
+  <link rel="stylesheet" href="css/jqm-icon-pack-3.0.0-fa.css" />
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+  <!-- Main Container Page -->
+  <div data-role="page" data-theme="a" id="i_containerPage">
+    <!-- Main Header -->
+    <div data-role="header" id="i_hdr" data-nobackbtn="true" data-theme="c">
+      <div align="center">
+        <h1><u>Look Around o-O</u></h1>
+        <div class="smallHdr">Your City: Kansas City, MO</div>
+      </div>
+    </div> <!-- End Main Header -->
+  
+    <!-- Main Content -->
+    <div data-role="content" id="i_content" data-theme="a">
+      <div class="ui-body ui-body-b">
+        <a href="javascript:loadPage('weather.html');return false;" data-role="button" data-icon="info" data-iconpos="left" data-theme="a">Weather</a>
+        <a href="javascript:loadPage('restaurants.html');return false;" data-role="button" data-icon="info" data-iconpos="left" data-theme="a">Restaurants</a>
+      </div>
+    </div> <!-- End Main Content -->
+    
+    <!-- Main Footer -->
+    <div data-role="footer" id="i_ftr" data-theme="c">
+      <p align="center">&copy; 2013 Team Look Around.</p>
+    </div> <!-- End Main Footer -->
+  </div> <!-- End Main Container Page -->
+
+  <!-- Progress Container Page -->
+  <div data-role="page" data-theme="a" data-nobackbtn="true" id="i_containerProgressPage">
+      <div align="center"><h4>Please wait...</h4></div>
+      <div align="center"><img id="spin" src="css/images/ajax-loader.gif"/></div>
+ </div> <!-- End Progress Container Page -->
+
+  <!-- Javascript -->
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/jquery.mobile-1.3.0.min.js"></script>
+  
+  <script type="text/javascript">
+      
+    // Commonly Used Variables
+    var m_i_hdr;
+    var m_i_content;
+    var m_i_ftrMain;
+    var m_i_progressPage;
+
+    $(document).ready(function () {
+      m_i_hdr = $('#i_hdr');
+      m_i_content = $('#i_content');
+      m_i_ftrMain = $('#i_ftr');
+      m_i_progressPage = $('#i_containerProgressPage');
+    });
+    
+    function hideMain() {
+      m_i_hdr.hide();
+      m_i_content.hide();
+      m_i_ftrMain.hide();
+    }
+
+    function hideProgress() {
+      m_i_progressPage.hide();
+    }
+
+    function showProgress() {
+      hideMain();
+      m_i_progressPage.show();
+    }
+    
+    function loadPage(url) {
+      showProgress();
+      Android.loadPage(url);
+    }
+    
+  </script>
+  
+</body>
+</html>
