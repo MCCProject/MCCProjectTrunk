@@ -107,16 +107,16 @@ public class MCCServices {
 				
 				 List<LocationCount> locations = new ArrayList<LocationCount>();
 				 List<Place> places = new ArrayList<Place>();
-				 for(Place p : places)
-				 {
-					 
-				 }
-				 //put into file, kick off jar
-				 for(LocationCount lc : locations)
-				 {
-					 
-				 }
-				 //put in json and send back
+//				 for(Place p : places)
+//				 {
+//					 
+//				 }
+//				 //put into file, kick off jar
+//				 for(LocationCount lc : locations)
+//				 {
+//					 
+//				 }
+//				 //put in json and send back
 			}
 		} catch (Exception ex) {
 			json.put("exception", ex.toString());

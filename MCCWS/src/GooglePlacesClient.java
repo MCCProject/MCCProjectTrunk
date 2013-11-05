@@ -12,6 +12,11 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import GooglePlaceAPI.GoogleMapper;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 
 public class GooglePlacesClient {
 	private static final String GOOGLE_API_KEY = "AIzaSyD8sluaqqEBilKQ6Y5XKn9nbVa75SrFuic";
@@ -35,8 +40,10 @@ public class GooglePlacesClient {
 
 		final HttpResponse response = this.client.execute(request);
 
-		final String responseString = EntityUtils.toString(response.getEntity());
+		Gson gson = new GsonBuilder().serializeNulls().create();
+	    String json = gson.toJson(response.getEntity());
 
+	    gson.fromJson(json, GoogleMapper.class);
 		return response;
 	}
 
