@@ -1,8 +1,12 @@
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
@@ -11,6 +15,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import GooglePlaceAPI.GoogleMapper;
 
@@ -23,9 +28,9 @@ public class GooglePlacesClient {
 
 	private final HttpClient client = new DefaultHttpClient();
 
-	public HttpResponse performSearch(final String types, final double lon,
+	public GoogleMapper performSearch(final String types, final double lon,
 			final double lat) throws ParseException, IOException,
-			URISyntaxException {
+			URISyntaxException, java.text.ParseException {
 		final URIBuilder builder = new URIBuilder().setScheme("https")
 				.setHost("maps.googleapis.com")
 				.setPath("/maps/api/place/search/json");
@@ -36,15 +41,48 @@ public class GooglePlacesClient {
 		builder.addParameter("sensor", "true");
 		builder.addParameter("key", GooglePlacesClient.GOOGLE_API_KEY);
 
+		GoogleMapper mapper = null;
 		final HttpUriRequest request = new HttpGet(builder.build());
 
 		final HttpResponse response = this.client.execute(request);
+		if(response != null){
+			HttpEntity entity = response.getEntity();
+			if (entity != null) {
+	
+	            // A Simple JSON Response Read
+	            InputStream instream = entity.getContent();
+	            JSONObject myObject = new JSONObject(convertStreamToString(instream));
+	            Gson gson = new GsonBuilder().serializeNulls().create();
+	    	    String json = gson.toJson(myObject);
+	    	    mapper = gson.fromJson(json, GoogleMapper.class);
+			}
+			else
+			{
+				EntityUtils.consume(entity);
+			}
+		}
+		return mapper;
+	}
+	private static String convertStreamToString(InputStream is) {
 
-		Gson gson = new GsonBuilder().serializeNulls().create();
-	    String json = gson.toJson(response.getEntity());
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+	    StringBuilder sb = new StringBuilder();
 
-	    gson.fromJson(json, GoogleMapper.class);
-		return response;
+	    String line = null;
+	    try {
+	        while ((line = reader.readLine()) != null) {
+	            sb.append(line + "\n");
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            is.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return sb.toString();
 	}
 
 }

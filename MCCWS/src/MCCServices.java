@@ -1,9 +1,10 @@
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,11 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.http.ParseException;
 import org.json.JSONObject;
 import org.apache.http.HttpResponse;
+
+import GooglePlaceAPI.GoogleMapper;
+
 import com.sun.jersey.api.json.JSONWithPadding;
+import org.apache.http.util.EntityUtils;
 
 @Path("mccservices")
 public class MCCServices {
@@ -100,10 +105,16 @@ public class MCCServices {
 
 			if (lngLat[0] != null && lngLat[1] != null) {
 				
-				 HttpResponse response = new GooglePlacesClient().performSearch(
+	    	    GoogleMapper mapper = new GooglePlacesClient().performSearch(
 						"establishment", Double.parseDouble(lngLat[0]),
 						Double.parseDouble(lngLat[1]));
 				//json.put("places", places);
+	    	    
+	    	    
+				json.put("Mapper:", mapper.toString());
+				
+				
+				
 				
 				 List<LocationCount> locations = new ArrayList<LocationCount>();
 				 List<Place> places = new ArrayList<Place>();
@@ -134,6 +145,6 @@ public class MCCServices {
 	@PUT
 	@Consumes("application/json")
 	public void putJson(String content) {
+		
 	}
-
 }
