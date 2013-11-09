@@ -24,8 +24,14 @@ import org.json.JSONObject;
 import org.apache.http.HttpResponse;
 
 import GooglePlaceAPI.GoogleMapper;
+<<<<<<< HEAD
 import GooglePlaceAPI.MyHashMap;
+=======
+import GooglePlaceAPIMock.GoogleMapperMock;
+import GooglePlaceAPIMock.GooglePlacesClientMock;
+>>>>>>> 6f2dcddc62bf2d2b9e904dfb2b40c674a91dfe6c
 
+import com.google.gson.Gson;
 import com.sun.jersey.api.json.JSONWithPadding;
 import org.apache.http.util.EntityUtils;
 
@@ -39,7 +45,7 @@ public class MCCServices {
 	 * Default constructor.
 	 */
 	public MCCServices() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**
@@ -98,17 +104,25 @@ public class MCCServices {
 //		} catch (FileNotFoundException ex) {
 //			text = "file reading has failed";
 //		}
-		String[] lngLat = gpsLocation.split(",");
+		String[] latLng = gpsLocation.split(",");
 		JSONObject json = new JSONObject();
 		try {
-			json.put("Longitute:", lngLat[0]);
-			json.put("Latitute:", lngLat[1]);
+			json.put("Latitude:", latLng[0]);
+			json.put("Longitude:", latLng[1]);
 
+<<<<<<< HEAD
 			if (lngLat[0] != null && lngLat[1] != null) {
 				
 				MyHashMap[] mapper = new GooglePlacesClient().performSearch(
 						"establishment", Double.parseDouble(lngLat[0]),
 						Double.parseDouble(lngLat[1]));
+=======
+			if (latLng[0] != null && latLng[1] != null) 
+			{
+	    	    GoogleMapper mapper = new GooglePlacesClient().performSearch(
+						"restaurant", Double.parseDouble(latLng[0]),
+						Double.parseDouble(latLng[1]));
+>>>>>>> 6f2dcddc62bf2d2b9e904dfb2b40c674a91dfe6c
 				//json.put("places", places);
 	    	    
 	    	    
@@ -135,6 +149,20 @@ public class MCCServices {
 		}
 		return new JSONWithPadding(json.toString(), callback);
 	}
+	
+    @GET
+    @Produces("application/x-javascript")
+    @Path("gpsLocationMock")
+    public JSONWithPadding GetLocationInfoMock(
+            @QueryParam("callback") String callback) throws IOException,
+            ParseException, URISyntaxException {
+        Gson gson = new Gson();
+        String json = "";
+        GoogleMapperMock mockMapper = new GooglePlacesClientMock().performSearch();
+        json = gson.toJson(mockMapper);
+        
+        return new JSONWithPadding(json.toString(), callback);
+    }	
 
 	/**
 	 * PUT method for updating or creating an instance of MCCServices

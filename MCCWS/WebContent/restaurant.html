@@ -25,7 +25,7 @@
     <div data-role="content">
     <div class="ui-grid-a" id="restaurant_info">
       <div class="ui-block-a">
-        <h1>Classic Cup</h1>
+        <h1 id=name></h1>
         <p><strong>Fine cuisine american dining.</strong></p>
         <p>Menu at a glance: </p>
           <ul>
@@ -36,6 +36,7 @@
       </div>
       <div class="ui-block-b">
         <h1>Hours of Operation</h1>
+        <h3>Open Now: <span id=open_now></span></h3>
         <ul>
            <li>Monday 7:00 am &#45 10:00 pm</li>
            <li>Tuesday 7:00 am &#45 10:00 pm</li>
@@ -77,5 +78,45 @@
     </div>
    
   </div><!-- /page -->
+  
+  <script type="text/javascript">
+    $(document).ready(function () {      
+      var restURI = "http://localhost:8080/MCCWS/jaxrs/mccservices/gpsLocationMock/";
+      callService(restURI, showAlert);
+    });
+    
+    // Call a service URI and return JSONP to a function
+    function callService(uri, successFunction) {
+        $.ajax({
+            cache: true,
+            url: uri,
+            data: "{}",
+            type: "GET",
+            contentType: "application/javascript",
+            dataType: "jsonp",
+            error: ajaxCallFailed,
+            failure: ajaxCallFailed,
+            success: successFunction
+        });          
+    }
+     
+    // Called if ajax call fails
+    function ajaxCallFailed(jqXHR, textStatus) { 
+        console.log("Error: " + textStatus);
+        console.log(jqXHR);
+        alert("Sorry, there was an error.");
+    }
+    
+    function showAlert(response) {
+      if(response.status == "OK")
+      {
+         $.each(response.results, function(key, value) {
+            alert(key + ": " + value.name);
+            $('#name').text(value.name);
+         });
+      }
+    }
+  </script>
+  
 </body>
 </html>  

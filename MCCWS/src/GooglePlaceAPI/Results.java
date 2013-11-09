@@ -13,6 +13,7 @@ public class Results {
 	public String id;
 
 	@SerializedName("name")
+<<<<<<< HEAD
 	public String name;
 
 	@SerializedName("photos")
@@ -23,6 +24,24 @@ public class Results {
 
 	@SerializedName("reference")
 	public String reference;
+=======
+	private String name;
+	
+	@SerializedName("opening_hours")
+	private OpeningHours opening_hours;
+
+	@SerializedName("photos")
+	private Photos photos;
+	
+	@SerializedName("price_level")
+	private int price_level;
+
+	@SerializedName("reference")
+	private String reference;
+	   
+	@SerializedName("rating")
+	private Double rating;
+>>>>>>> 6f2dcddc62bf2d2b9e904dfb2b40c674a91dfe6c
 
 	@SerializedName("types")
 	public List<String> types;
