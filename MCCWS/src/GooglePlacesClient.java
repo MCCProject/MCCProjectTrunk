@@ -18,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import GooglePlaceAPI.GoogleMapper;
+import GooglePlaceAPI.MyHashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,7 +29,7 @@ public class GooglePlacesClient {
 
 	private final HttpClient client = new DefaultHttpClient();
 
-	public GoogleMapper performSearch(final String types, final double lon,
+	public MyHashMap[] performSearch(final String types, final double lon,
 			final double lat) throws ParseException, IOException,
 			URISyntaxException, java.text.ParseException {
 		final URIBuilder builder = new URIBuilder().setScheme("https")
@@ -41,7 +42,7 @@ public class GooglePlacesClient {
 		builder.addParameter("sensor", "true");
 		builder.addParameter("key", GooglePlacesClient.GOOGLE_API_KEY);
 
-		GoogleMapper mapper = null;
+		MyHashMap[] mapper = null;
 		final HttpUriRequest request = new HttpGet(builder.build());
 
 		final HttpResponse response = this.client.execute(request);
@@ -52,9 +53,10 @@ public class GooglePlacesClient {
 	            // A Simple JSON Response Read
 	            InputStream instream = entity.getContent();
 	            JSONObject myObject = new JSONObject(convertStreamToString(instream));
-	            Gson gson = new GsonBuilder().serializeNulls().create();
-	    	    String json = gson.toJson(myObject);
-	    	    mapper = gson.fromJson(json, GoogleMapper.class);
+	            Gson gson = new Gson();
+	            String json = gson.toJson(myObject);
+	            GoogleMapper mapper2 = gson.fromJson(json, GoogleMapper.class);
+	    	    mapper[0]  = gson.fromJson(json, MyHashMap.class);
 			}
 			else
 			{

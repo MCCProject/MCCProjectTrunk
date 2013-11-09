@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import org.apache.http.HttpResponse;
 
 import GooglePlaceAPI.GoogleMapper;
+import GooglePlaceAPI.MyHashMap;
 
 import com.sun.jersey.api.json.JSONWithPadding;
 import org.apache.http.util.EntityUtils;
@@ -105,7 +106,7 @@ public class MCCServices {
 
 			if (lngLat[0] != null && lngLat[1] != null) {
 				
-	    	    GoogleMapper mapper = new GooglePlacesClient().performSearch(
+				MyHashMap[] mapper = new GooglePlacesClient().performSearch(
 						"establishment", Double.parseDouble(lngLat[0]),
 						Double.parseDouble(lngLat[1]));
 				//json.put("places", places);

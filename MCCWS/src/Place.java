@@ -7,4 +7,6 @@ public class Place {
 	public boolean OpenNow;
 	public double Distance;
 	public String IconURI;
+	public double latitude;
+	public double longtide;
 }

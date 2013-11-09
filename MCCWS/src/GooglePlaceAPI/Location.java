@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Location {
 	@SerializedName("lat")
-	private Double lat;
+	public Double lat;
 
 	@SerializedName("lng")
-	private Double lng;
+	public Double lng;
 }

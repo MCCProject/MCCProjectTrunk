@@ -4,29 +4,29 @@ import com.google.gson.annotations.SerializedName;
 
 public class Results {
 	@SerializedName("geometry")
-	private Geometry geometry;
+	public Geometry geometry;
 
 	@SerializedName("icon")
-	private String icon;
+	public String icon;
 
 	@SerializedName("id")
-	private String id;
+	public String id;
 
 	@SerializedName("name")
-	private String name;
+	public String name;
 
 	@SerializedName("photos")
-	private Photos photos;
+	public Photos photos;
 
 	@SerializedName("rating")
-	private Double rating;
+	public Double rating;
 
 	@SerializedName("reference")
-	private String reference;
+	public String reference;
 
 	@SerializedName("types")
-	private List<String> types;
+	public List<String> types;
 
 	@SerializedName("vicinity")
-	private String vicinity;
+	public String vicinity;
 }
