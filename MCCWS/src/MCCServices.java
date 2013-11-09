@@ -24,7 +24,10 @@ import org.json.JSONObject;
 import org.apache.http.HttpResponse;
 
 import GooglePlaceAPI.GoogleMapper;
+import GooglePlaceAPIMock.GoogleMapperMock;
+import GooglePlaceAPIMock.GooglePlacesClientMock;
 
+import com.google.gson.Gson;
 import com.sun.jersey.api.json.JSONWithPadding;
 import org.apache.http.util.EntityUtils;
 
@@ -38,7 +41,7 @@ public class MCCServices {
 	 * Default constructor.
 	 */
 	public MCCServices() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**
@@ -97,17 +100,17 @@ public class MCCServices {
 //		} catch (FileNotFoundException ex) {
 //			text = "file reading has failed";
 //		}
-		String[] lngLat = gpsLocation.split(",");
+		String[] latLng = gpsLocation.split(",");
 		JSONObject json = new JSONObject();
 		try {
-			json.put("Longitute:", lngLat[0]);
-			json.put("Latitute:", lngLat[1]);
+			json.put("Latitude:", latLng[0]);
+			json.put("Longitude:", latLng[1]);
 
-			if (lngLat[0] != null && lngLat[1] != null) {
-				
+			if (latLng[0] != null && latLng[1] != null) 
+			{
 	    	    GoogleMapper mapper = new GooglePlacesClient().performSearch(
-						"establishment", Double.parseDouble(lngLat[0]),
-						Double.parseDouble(lngLat[1]));
+						"restaurant", Double.parseDouble(latLng[0]),
+						Double.parseDouble(latLng[1]));
 				//json.put("places", places);
 	    	    
 	    	    
@@ -134,6 +137,20 @@ public class MCCServices {
 		}
 		return new JSONWithPadding(json.toString(), callback);
 	}
+	
+    @GET
+    @Produces("application/x-javascript")
+    @Path("gpsLocationMock")
+    public JSONWithPadding GetLocationInfoMock(
+            @QueryParam("callback") String callback) throws IOException,
+            ParseException, URISyntaxException {
+        Gson gson = new Gson();
+        String json = "";
+        GoogleMapperMock mockMapper = new GooglePlacesClientMock().performSearch();
+        json = gson.toJson(mockMapper);
+        
+        return new JSONWithPadding(json.toString(), callback);
+    }	
 
 	/**
 	 * PUT method for updating or creating an instance of MCCServices
