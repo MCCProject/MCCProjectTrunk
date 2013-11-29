@@ -77,41 +77,7 @@
          unit: 'f',
          link: false
       });
-      
-      var restURI = "http://localhost:8080/MCCWS/jaxrs/mccservices/gpsLocationMock/";
-      //callService(restURI, showAlert);
-    });
-    
-    // Call a service URI and return JSONP to a function
-    function callService(uri, successFunction) {
-        $.ajax({
-            cache: true,
-            url: uri,
-            data: "{}",
-            type: "GET",
-            contentType: "application/javascript",
-            dataType: "jsonp",
-            error: ajaxCallFailed,
-            failure: ajaxCallFailed,
-            success: successFunction
-        });          
-    }
-     
-    // Called if ajax call fails
-    function ajaxCallFailed(jqXHR, textStatus) { 
-        console.log("Error: " + textStatus);
-        console.log(jqXHR);
-        alert("Sorry, there was an error.");
-    }
-    
-    function showAlert(response) {
-      if(response.status == "OK")
-      {
-         $.each(response.results, function(key, value) {
-            alert(key + ": " + value.icon);
-         });
-      }
-    }
+    });  
     
     function hideMain() {
       m_i_hdr.hide();
